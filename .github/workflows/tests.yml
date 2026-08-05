@@ -1,0 +1,28 @@
+name: Execute GoogleTests sur tous les Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - '**'   # toutes les branches
+    paths:
+      - '**'   # tous les fichiers
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Recupere le depot
+        uses: actions/checkout@v4
+
+      - name: Installe les dependances
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ ninja-build
+
+      - name: Configure CMake
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Construit le projet
+        run: cmake --build build
+
+      - name: Demarre les tests
+        run: ctest --test-dir build --output-on-failure

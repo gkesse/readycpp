@@ -1,9 +1,9 @@
 # definit le nom du projet
-project(readycpp_process)
+project(readycpp_factory)
 
 # definit les sources du projet
 add_library(${PROJECT_NAME}
-    Process.cpp
+    Facade.cpp
 )
 
 # définit le répertoire d'inclusion pour le projet
@@ -16,7 +16,8 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         readycpp_exception
-        readycpp_factory
+        readycpp_facade
+        readycpp_process
 )
 
 # active le mode debug si l'option WITH_DEBUG est activée

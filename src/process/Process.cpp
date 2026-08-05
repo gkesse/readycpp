@@ -1,6 +1,7 @@
 #include "process/Process.hpp"
 
-#include "exception/process/Module.hpp"
+#include "exception/Exception.hpp"
+#include "factory/Facade.hpp"
 
 #include <algorithm>
 #include <iostream>
@@ -14,13 +15,6 @@
 
 namespace process
 {
-    // cree un constructeur de process par defaut
-    Process::Process()
-    {
-        initModuleListe();
-        m_module = m_module_list.at(1);
-    }
-
     // cree un constructeur de process par donnees
     Process::Process(int _argc, char **_argv)
     {
@@ -28,7 +22,7 @@ namespace process
         loadArguments(_argc, _argv, m_arg_list);
         if (!loadModule(m_module))
         {
-            throw exception::process::Module("Erreur lors du chargement du module.");
+            throw exception::Exception("Le chargement du module a echoue.");
         }
     }
 
@@ -45,6 +39,9 @@ namespace process
             runHelp();
             return;
         }
+
+        factory::Facade factory_facade(*this);
+        factory_facade.create()->run();
     }
 
     // initialise la liste des modules

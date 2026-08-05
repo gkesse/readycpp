@@ -7,12 +7,16 @@
 #include <string>
 #include <vector>
 
+namespace factory
+{
+    class Facade;
+}
+
 namespace process
 {
     // cree un module process
     class Process
     {
-        friend class TestProcess;
 #ifdef UNIT_TEST
         friend class TestProcess;
         FRIEND_TEST(TestProcess, Test_Nombre_Modules);
@@ -22,6 +26,8 @@ namespace process
         FRIEND_TEST(TestProcess, Test_Chargement_Module);
         FRIEND_TEST(TestProcess, Test_Execution_Module);
 #endif
+
+        friend class factory::Facade;
 
     public:
         // cree le type d'un module
@@ -65,9 +71,19 @@ namespace process
         // cree un type pour une liste d'arguments cli
         using ArgList = std::vector<Arg>;
 
+#ifdef UNIT_TEST
     public:
         // cree un constructeur de process par defaut
-        explicit Process();
+        explicit Process()
+        {
+            initModuleListe();
+            m_module = m_module_list.at(1);
+        }
+        // initialise les arguments cli
+        void setModule(const Module &_module) { m_module = _module; }
+#endif
+
+    public:
         // cree un constructeur de process par donnees
         explicit Process(int _argc, char **_argv);
         // cree un destructeur de process

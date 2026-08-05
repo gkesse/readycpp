@@ -4,7 +4,18 @@
 
 namespace exception
 {
-    TEST(TestException, Test_General)
+    // cree la classe de fixture
+    class TestException : public ::testing::Test
+    {
+    protected:
+        // initialise le test avant son execution
+        void SetUp() override {}
+        // nettoye le test apres son execution
+        void TearDown() override {}
+    };
+
+    // teste la capture de l'exception par defaut
+    TEST_F(TestException, Test_Exception_Par_Defaut)
     {
         try
         {
@@ -30,7 +41,8 @@ namespace exception
         }
     }
 
-    TEST(TestException, Test_Exception)
+    // teste la capture de l'exception par donnees
+    TEST_F(TestException, Test_Exception_Par_Donnees)
     {
         try
         {
@@ -56,7 +68,8 @@ namespace exception
         }
     }
 
-    TEST(TestException, Test_Standard)
+    // teste la capture de l'exception standard
+    TEST_F(TestException, Test_Exception_Standard)
     {
         try
         {
@@ -76,7 +89,8 @@ namespace exception
         }
     }
 
-    TEST(TestException, Test_Global)
+    // teste la capture de l'exception globale
+    TEST_F(TestException, Test_Exception_Globale)
     {
         try
         {

@@ -3,9 +3,14 @@
 #include "exception/process/Module.hpp"
 
 #include <algorithm>
+#include <iostream>
 
-#define DEF_ADD_MODULE(_type, _name, _description) \
-    m_module_list.push_back({_type, _name, _description})
+// ajoute un module
+#define DEF_ADD_MODULE(_type, _name, _description)             \
+    do                                                         \
+    {                                                          \
+        m_module_list.push_back({_type, _name, _description}); \
+    } while (false);
 
 namespace process
 {
@@ -13,7 +18,7 @@ namespace process
     Process::Process()
     {
         initModuleListe();
-        m_module = m_module_list.at(0);
+        m_module = m_module_list.at(1);
     }
 
     // cree un constructeur de process par donnees
@@ -32,25 +37,53 @@ namespace process
     {
     }
 
+    // execute le process
+    void Process::run()
+    {
+        if (m_module == m_module_list.at(1))
+        {
+            runHelp();
+            return;
+        }
+    }
+
     // initialise la liste des modules
     void Process::initModuleListe()
     {
         DEF_ADD_MODULE(MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu.");
         DEF_ADD_MODULE(MODULE_TYPE::HELP, "help", "Affiche l'aide.");
-        DEF_ADD_MODULE(MODULE_TYPE::BDD, "bdd", "Execute le module de gestion de la base de données.");
+        DEF_ADD_MODULE(MODULE_TYPE::BDD, "bdd", "Execute le module de gestion de base de donnees.");
     }
 
     // charge le module correspondant à l'argument cli
     bool Process::loadModule(Module &_module)
     {
-        if (m_arg_list.size() < 1)
+        if (m_arg_list.size() <= 1)
         {
-            return false;
+            _module = m_module_list.at(1);
+            return true;
         }
 
-        std::string module_name = m_arg_list[0];
+        std::string module_name = m_arg_list[1];
 
         return m_module_list.loadModuleByName(module_name, _module);
+    }
+
+    // affiche l'aide
+    void Process::runHelp()
+    {
+        std::cout << std::endl;
+        std::cout << "Usage: readycpp <module> <method> [params]" << std::endl;
+        std::cout << std::endl;
+        std::cout << "  - Description des arguments:" << std::endl;
+        std::cout << "      - <module>  : Indique le module (obligatoire)." << std::endl;
+        std::cout << "      - <method>  : Indique la methode (obligatoire)." << std::endl;
+        std::cout << "      - [params]  : Indique les parametres (optionnels)." << std::endl;
+        std::cout << std::endl;
+        std::cout << "  - Liste des modules disponibles:" << std::endl;
+        std::cout << "      - help      : Affiche l'aide." << std::endl;
+        std::cout << "      - bdd       : Execute le module de gestion de base de donnees." << std::endl;
+        std::cout << std::endl;
     }
 
     // charge la liste des arguments cli
@@ -72,7 +105,9 @@ namespace process
 
     // cree un constructeur de module
     Process::Module::Module(MODULE_TYPE _type, const std::string &_name, const std::string &_description)
-        : m_type(_type), m_name(_name), m_description(_description)
+        : m_type(_type),
+          m_name(_name),
+          m_description(_description)
     {
     }
 
@@ -110,8 +145,15 @@ namespace process
     // charge un module par son nom
     bool Process::ModuleList::loadModuleByName(const std::string &_name, Module &_module)
     {
+        if (_name.empty())
+        {
+            _module = at(1);
+            return true;
+        }
+
         auto it = std::find_if(begin(), end(), [&](const Module &_obj)
                                { return _obj.m_name == _name; });
+
         if (it != end() && it->m_type != MODULE_TYPE::INCONNU)
         {
             _module = *it;

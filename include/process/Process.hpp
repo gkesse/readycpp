@@ -15,8 +15,12 @@ namespace process
         friend class TestProcess;
 #ifdef UNIT_TEST
         friend class TestProcess;
-        FRIEND_TEST(TestProcess, Test_General);
+        FRIEND_TEST(TestProcess, Test_Nombre_Modules);
         FRIEND_TEST(TestProcess, Test_Module_Inconnu);
+        FRIEND_TEST(TestProcess, Test_Module_Aide);
+        FRIEND_TEST(TestProcess, Test_Egalite_Modules);
+        FRIEND_TEST(TestProcess, Test_Chargement_Module);
+        FRIEND_TEST(TestProcess, Test_Execution_Module);
 #endif
 
     public:
@@ -68,14 +72,18 @@ namespace process
         explicit Process(int _argc, char **_argv);
         // cree un destructeur de process
         ~Process();
+        // execute le process
+        void run();
 
     private:
         // initialise la lsite des modules
         void initModuleListe();
         // charge la liste des arguments cli
-        void loadArguments(int _argc, char **_argv, ArgList &_arg_list);
+        virtual void loadArguments(int _argc, char **_argv, ArgList &_arg_list);
         // charge le module correspondant à l'argument cli
         bool loadModule(Module &_module);
+        // affiche l'aide
+        void runHelp();
 
     private:
         Module m_module;

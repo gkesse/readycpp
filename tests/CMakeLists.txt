@@ -34,6 +34,8 @@ target_link_libraries(${PROJECT_NAME}
         readycpp_process
         gtest
         gtest_main
+        gmock
+        gmock_main
 )
 
 # ajoute les tests unitaires au module CTest pour qu'ils soient exécutés avec ctest

@@ -4,7 +4,6 @@ project(readycpp_exception)
 # definit les sources du projet
 add_library(${PROJECT_NAME}
     Exception.cpp
-    process/Module.cpp
 )
 
 # définit le répertoire d'inclusion pour le projet

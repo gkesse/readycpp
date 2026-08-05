@@ -17,7 +17,8 @@ FetchContent_MakeAvailable(googletest)
 add_executable(${PROJECT_NAME}
     main.cpp
     exception/TestException.cpp
-    exception/process/TestModule.cpp
+    facade/TestFacade.cpp
+    factory/TestFacade.cpp
     process/TestProcess.cpp
 )
 
@@ -31,6 +32,8 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         readycpp_exception
+        readycpp_facade
+        readycpp_factory
         readycpp_process
         gtest
         gtest_main

@@ -4,7 +4,18 @@
 
 namespace exception::process
 {
-    TEST(TestModule, Test_General)
+    // cree la classe de fixture
+    class TestModule : public ::testing::Test
+    {
+    protected:
+        // initialise le test avant son execution
+        void SetUp() override {}
+        // nettoye le test apres son execution
+        void TearDown() override {}
+    };
+
+    // teste la capture de l'exception par defaut
+    TEST_F(TestModule, Test_Exception_Par_Defaut)
     {
         try
         {
@@ -36,7 +47,8 @@ namespace exception::process
         }
     }
 
-    TEST(TestModule, Test_Module)
+    // teste la capture de l'exception par donnees
+    TEST_F(TestModule, Test_Exception_Par_Donnees)
     {
         try
         {
@@ -68,7 +80,8 @@ namespace exception::process
         }
     }
 
-    TEST(TestModule, Test_Exception)
+    // teste la capture de l'exception parente
+    TEST_F(TestModule, Test_Exception_Parente)
     {
         try
         {
@@ -94,7 +107,8 @@ namespace exception::process
         }
     }
 
-    TEST(TestModule, Test_Standard)
+    // teste la capture de l'exception standard
+    TEST_F(TestModule, Test_Exception_Standard)
     {
         try
         {
@@ -114,7 +128,8 @@ namespace exception::process
         }
     }
 
-    TEST(TestModule, Test_Global)
+    // teste la capture de l'exception globale
+    TEST_F(TestModule, Test_Exception_Globale)
     {
         try
         {

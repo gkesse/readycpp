@@ -3,8 +3,16 @@ cmake_minimum_required(VERSION 3.10.0)
 # definit le nom du projet et la version
 project(readycpp VERSION 0.1.0 LANGUAGES C CXX)
 
+# definit les standards c++
+set(CMAKE_CXX_STANDARD 11)
+# active les standards c++
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # definit l'option WITH_DEBUG pour activer le mode debug
 option(WITH_DEBUG "Active le mode debug" ON)
+
+# importe manuellement le module boost.stacktrace
+include(cmake/include/BoostStacktrace.cmake)
 
 # ajoute le module CTest pour les tests unitaires
 include(CTest)

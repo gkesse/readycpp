@@ -1,5 +1,7 @@
 #include "facade/Bdd.hpp"
 
+#include <module/trace/backtrace/Trace.hpp>
+
 #include <iostream>
 
 namespace facade
@@ -18,6 +20,7 @@ namespace facade
     // execute la facade
     void Bdd::run()
     {
+        module::trace::backtrace::Trace::print();
         std::cout << "void Bdd::run()............" << std::endl;
     }
 }

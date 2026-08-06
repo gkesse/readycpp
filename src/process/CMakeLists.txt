@@ -21,5 +21,5 @@ target_link_libraries(${PROJECT_NAME}
 
 # active le mode debug si l'option WITH_DEBUG est activée
 if(WITH_DEBUG)
-    target_compile_options(${PROJECT_NAME} PRIVATE -g)
+    target_compile_options(${PROJECT_NAME} PRIVATE -g -rdynamic -fno-omit-frame-pointer)
 endif()

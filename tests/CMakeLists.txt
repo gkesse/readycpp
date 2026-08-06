@@ -1,6 +1,11 @@
 # definit le nom du projet
 project(readycpp_tests)
 
+# active le mode debug de googletests si l'option WITH_DEBUG est activée
+if(WITH_DEBUG)
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+endif()
+
 # ajoute le module FetchContent pour télécharger et inclure des dépendances externes
 include(FetchContent)
 
@@ -19,6 +24,7 @@ add_executable(${PROJECT_NAME}
     exception/TestException.cpp
     facade/TestFacade.cpp
     factory/TestFacade.cpp
+    module/trace/backtrace/TestTrace.cpp
     process/TestProcess.cpp
 )
 
@@ -34,11 +40,12 @@ target_link_libraries(${PROJECT_NAME}
         readycpp_exception
         readycpp_facade
         readycpp_factory
+        readycpp_module
         readycpp_process
-        gtest
-        gtest_main
         gmock
         gmock_main
+        gtest
+        gtest_main
 )
 
 # ajoute les tests unitaires au module CTest pour qu'ils soient exécutés avec ctest
@@ -52,5 +59,5 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE UNIT_TEST)
 
 # active le mode debug si l'option WITH_DEBUG est activée
 if(WITH_DEBUG)
-    target_compile_options(${PROJECT_NAME} PRIVATE -g)
+    target_compile_options(${PROJECT_NAME} PRIVATE -g -rdynamic -fno-omit-frame-pointer)
 endif()

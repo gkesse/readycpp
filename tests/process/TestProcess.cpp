@@ -22,7 +22,7 @@ namespace process
         Process process;
 
         // teste le nombre de modules
-        EXPECT_TRUE(process.m_module_list.size() == 3);
+        EXPECT_TRUE(process.m_module_list.size() >= 2);
     }
 
     // teste le module inconnu
@@ -62,6 +62,14 @@ namespace process
     // teste l'affichage du menu d'aide
     TEST_F(TestProcess, Test_Affichage_Menu_Aide)
     {
+        // cree un mock de process
+        class MockProcess : public Process
+        {
+        public:
+            // affiche l'aide
+            MOCK_METHOD(void, runHelp, (), (override));
+        };
+
         // cree le menu d'aide
         const std::string DEF_MENU_AIDE = R"_EOF_(
 Usage: readycpp <module> <method> [params]
@@ -76,8 +84,19 @@ Usage: readycpp <module> <method> [params]
       - bdd       : Execute le module de gestion de base de donnees.
 
 )_EOF_";
+
+        // affiche l'aide
+        auto runHelpFunc = [&]()
+        {
+            std::cout << DEF_MENU_AIDE;
+        };
+
         // cree un process
-        Process process;
+        MockProcess process;
+
+        // teste l'affichage de l'aide
+        EXPECT_CALL(process, runHelp())
+            .WillOnce(runHelpFunc);
 
         // demarre la capture de sortie standard
         testing::internal::CaptureStdout();

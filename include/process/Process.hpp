@@ -79,7 +79,7 @@ namespace process
             initModuleListe();
             m_module = m_module_list.at(1);
         }
-        // initialise les arguments cli
+        // initialise le module
         void setModule(const Module &_module) { m_module = _module; }
 #endif
 
@@ -95,7 +95,7 @@ namespace process
         // initialise la lsite des modules
         void initModuleListe();
         // charge la liste des arguments cli
-        virtual void loadArguments(int _argc, char **_argv, ArgList &_arg_list);
+        void loadArguments(int _argc, char **_argv, ArgList &_arg_list);
         // charge le module correspondant à l'argument cli
         bool loadModule(Module &_module);
         // affiche l'aide

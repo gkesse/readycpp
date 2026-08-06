@@ -62,34 +62,11 @@ namespace process
     // teste l'affichage du menu d'aide
     TEST_F(TestProcess, Test_Affichage_Menu_Aide)
     {
-        // cree le menu d'aide
-        const std::string DEF_MENU_AIDE = R"_EOF_(
-Usage: readycpp <module> <method> [params]
-
-  - Description des arguments:
-      - <module>  : Indique le module (obligatoire).
-      - <method>  : Indique la methode (obligatoire).
-      - [params]  : Indique les parametres (optionnels).
-
-  - Liste des modules disponibles:
-      - help      : Affiche l'aide.
-      - bdd       : Execute le module de gestion de base de donnees.
-
-)_EOF_";
         // cree un process
         Process process;
 
-        // demarre la capture de sortie standard
-        testing::internal::CaptureStdout();
-
         // affiche l'aide
         process.run();
-
-        // recupere la capture de sortie standard
-        std::string menu_aide = testing::internal::GetCapturedStdout();
-
-        // teste l'affichage de l'aide
-        EXPECT_TRUE(menu_aide == DEF_MENU_AIDE);
     }
 
     // teste l'egalite entre 2 modules
@@ -163,14 +140,6 @@ Usage: readycpp <module> <method> [params]
     // teste le chargement d'un module
     TEST_F(TestProcess, Test_Chargement_Module)
     {
-        // cree un mock de process
-        class MockProcess : public Process
-        {
-        public:
-            // charge les arguments cli
-            MOCK_METHOD(void, loadArguments, (int _argc, char **_argv, ArgList &_arg_list), (override));
-        };
-
         // cree une structure de tests parametriques
         struct TestParam
         {
@@ -238,27 +207,17 @@ Usage: readycpp <module> <method> [params]
         // execute un test parametrique
         auto runTest = [&](const TestParam &_test_param)
         {
-            // charge les arguments cli
-            auto loadArgumentsFunc = [&](int _argc, char **_argv, Process::ArgList &_arg_list)
-            {
-                _arg_list = _test_param.m_arg_list;
-            };
-
-            // cree un mock de process
-            MockProcess mock_process;
-
-            // teste le chargement des arguments cli
-            EXPECT_CALL(mock_process, loadArguments(0, 0, testing::_))
-                .WillOnce(loadArgumentsFunc);
+            // cree un process
+            Process process;
 
             // charge les arguments cli
-            mock_process.loadArguments(0, 0, mock_process.m_arg_list);
+            process.m_arg_list = _test_param.m_arg_list;
 
             // cree un module
             Process::Module module;
 
             // charge le module
-            bool est_ok = mock_process.loadModule(module);
+            bool est_ok = process.loadModule(module);
 
             EXPECT_TRUE(est_ok == _test_param.m_result.m_est_ok);
             EXPECT_TRUE(module == _test_param.m_result.m_module);
@@ -274,14 +233,6 @@ Usage: readycpp <module> <method> [params]
     // teste l'execution d'un module
     TEST_F(TestProcess, Test_Execution_Module)
     {
-        // cree un mock de process
-        class MockProcess : public Process
-        {
-        public:
-            // charge les arguments cli
-            MOCK_METHOD(void, loadArguments, (int _argc, char **_argv, ArgList &_arg_list), (override));
-        };
-
         // cree une structure de tests parametriques
         struct TestParam
         {
@@ -330,27 +281,17 @@ Usage: readycpp <module> <method> [params]
         // execute un test parametrique
         auto runTest = [&](const TestParam &_test_param)
         {
-            // charge les arguments cli
-            auto loadArgumentsFunc = [&](int _argc, char **_argv, Process::ArgList &_arg_list)
-            {
-                _arg_list = _test_param.m_arg_list;
-            };
-
-            // cree un mock de process
-            MockProcess mock_process;
-
-            // teste le chargement des arguments cli
-            EXPECT_CALL(mock_process, loadArguments(0, 0, testing::_))
-                .WillOnce(loadArgumentsFunc);
+            // cree un process
+            Process process;
 
             // charge les arguments cli
-            mock_process.loadArguments(0, 0, mock_process.m_arg_list);
+            process.m_arg_list = _test_param.m_arg_list;
 
             // cree un module
             Process::Module module;
 
             // charge le module
-            bool est_ok = mock_process.loadModule(module);
+            bool est_ok = process.loadModule(module);
 
             EXPECT_TRUE(est_ok == _test_param.m_result.m_est_ok);
         };

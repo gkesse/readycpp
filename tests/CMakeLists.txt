@@ -6,6 +6,9 @@ if(WITH_DEBUG)
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 endif()
 
+# active la nouvelle politique CMP0135
+cmake_policy(SET CMP0135 NEW)
+
 # ajoute le module FetchContent pour télécharger et inclure des dépendances externes
 include(FetchContent)
 

@@ -49,6 +49,7 @@ namespace process
     {
         DEF_ADD_MODULE(MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu.");
         DEF_ADD_MODULE(MODULE_TYPE::HELP, "help", "Affiche l'aide.");
+        DEF_ADD_MODULE(MODULE_TYPE::SERVER_BOOST, "server_boost", "Execute le module de gestion du serveur boost.");
         DEF_ADD_MODULE(MODULE_TYPE::BDD, "bdd", "Execute le module de gestion de base de donnees.");
     }
 
@@ -78,8 +79,9 @@ namespace process
         std::cout << "      - [params]  : Indique les parametres (optionnels)." << std::endl;
         std::cout << std::endl;
         std::cout << "  - Liste des modules disponibles:" << std::endl;
-        std::cout << "      - help      : Affiche l'aide." << std::endl;
-        std::cout << "      - bdd       : Execute le module de gestion de base de donnees." << std::endl;
+        std::cout << "      - help          : Affiche l'aide." << std::endl;
+        std::cout << "      - server_boost  : Execute le module de gestion du serveur boost." << std::endl;
+        std::cout << "      - bdd           : Execute le module de gestion de base de donnees." << std::endl;
         std::cout << std::endl;
     }
 

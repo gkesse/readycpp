@@ -15,6 +15,7 @@ target_include_directories(${PROJECT_NAME}
 # definit les libraries à lier avec le binaire
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
+        readycpp_module
         readycpp_process
 )
 
@@ -23,5 +24,5 @@ install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 
 # active le mode debug si l'option WITH_DEBUG est activée
 if(WITH_DEBUG)
-    target_compile_options(${PROJECT_NAME} PRIVATE -g)
+    target_compile_options(${PROJECT_NAME} PRIVATE -g -rdynamic -fno-omit-frame-pointer)
 endif()

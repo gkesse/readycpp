@@ -35,6 +35,7 @@ namespace process
         {
             INCONNU,
             HELP,
+            SERVER_BOOST,
             BDD,
         };
 
@@ -99,7 +100,7 @@ namespace process
         // charge le module correspondant à l'argument cli
         bool loadModule(Module &_module);
         // affiche l'aide
-        void runHelp();
+        virtual void runHelp();
 
     private:
         Module m_module;

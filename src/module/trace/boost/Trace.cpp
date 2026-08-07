@@ -1,6 +1,8 @@
-#include "module/trace/backtrace/Trace.hpp"
+#include "module/trace/boost/Trace.hpp"
 
 #include <exception/Exception.hpp>
+
+#include <boost/stacktrace.hpp>
 
 #include <cstring>
 #include <execinfo.h>
@@ -8,7 +10,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace module::trace::backtrace
+namespace module::trace::boosttrace
 {
     uintptr_t Trace::m_binary_base = 0;
     std::string Trace::m_binary_name = "";
@@ -29,14 +31,13 @@ namespace module::trace::backtrace
 
         loadBinaryBase();
 
-        void *buffer[64];
-        int size = ::backtrace(buffer, 64);
+        auto st = boost::stacktrace::stacktrace();
 
         std::cout << "Stack Trace:" << std::endl;
 
-        for (int i = 0; i < size; ++i)
+        for (int i = 0; i < (int)st.size(); ++i)
         {
-            uintptr_t addr = reinterpret_cast<uintptr_t>(buffer[i]);
+            uintptr_t addr = reinterpret_cast<uintptr_t>(st[i].address());
             uintptr_t corrected = addr - m_binary_base;
 
             // ignore les adresses hors du binaire

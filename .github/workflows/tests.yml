@@ -18,6 +18,11 @@ jobs:
       - name: Installe les dependances
         run: sudo apt-get update && sudo apt-get install -y cmake g++ ninja-build
 
+      - name: Installe Boost Stacktrace
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-stacktrace-dev
+
       - name: Configure CMake
         run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
 

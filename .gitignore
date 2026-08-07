@@ -1,7 +1,6 @@
 # ignore les fichiers
 
 # ignore les repertoires
-.vscode/
 build/
 config/
 logs/

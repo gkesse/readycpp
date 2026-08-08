@@ -16,12 +16,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Installe les dependances
-        run: sudo apt-get update && sudo apt-get install -y cmake g++ ninja-build
-
-      - name: Installe Boost Stacktrace
         run: |
           sudo apt-get update
+          sudo apt-get install -y cmake g++ ninja-build
           sudo apt-get install -y libboost-stacktrace-dev
+          sudo apt-get install -y shunit2
 
       - name: Configure CMake
         run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
@@ -30,4 +29,6 @@ jobs:
         run: cmake --build build
 
       - name: Demarre les tests
-        run: ctest --test-dir build --output-on-failure
+        run: |
+          ctest --test-dir build --output-on-failure
+          ./cmd/cmd.sh tests run_bash

@@ -1,6 +1,6 @@
 # ignore les fichiers
 
 # ignore les repertoires
-build/
-config/
-logs/
+/build/
+/config/
+/logs/

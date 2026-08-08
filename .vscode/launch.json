@@ -49,5 +49,42 @@
                 }
             ]
         },
+        {
+            "name": "readycpp_bash_tests",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/usr/bin/cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build",
+                "--target",
+                "readycpp_bash_tests"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "readycpp_ctests",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/usr/bin/cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build",
+                "--target",
+                "readycpp_ctests"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "readycpp_build",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/usr/bin/cmake",
+            "args": [
+                "-B",
+                "${workspaceFolder}/build",
+            ],
+            "cwd": "${workspaceFolder}"
+        },
     ]
 }

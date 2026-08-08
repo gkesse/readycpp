@@ -11,13 +11,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # definit l'option WITH_DEBUG pour activer le mode debug
 option(WITH_DEBUG "Active le mode debug" ON)
 
-# importe manuellement le module boost.stacktrace
-include(cmake/include/BoostStacktrace.cmake)
-
 # ajoute le module CTest pour les tests unitaires
 include(CTest)
 # active le module CTest pour les tests unitaires
 enable_testing()
+
+# inclut les dependances du projet
+include(cmake/include.cmake)
 
 # definit le nom du projet pour le module CPack
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

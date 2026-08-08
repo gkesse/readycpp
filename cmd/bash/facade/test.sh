@@ -6,6 +6,7 @@
 # definit les dependances du projet
 source "$root_dir/cmd/bash/module/args.sh"
 source "$root_dir/cmd/bash/module/log.sh"
+source "$root_dir/cmd/bash/module/test/bash/test.sh"
 
 # affiche l'aide
 test_facade_help()
@@ -19,20 +20,14 @@ test_facade_help()
     echo
     echo "  - Liste des méthodes disponibles :"
     echo "      - help      : Affiche l'aide."
-    echo "      - run       : Demarre les tests."
+    echo "      - run_bash  : Demarre les tests des scripts bash."
     echo
 }
 
 # demarre les tests
-test_facade_run_tests()
+test_facade_run_bash()
 {
-    for test in $root_dir/cmd/bash/tests/*.sh; do
-        log_info "L'execution du test est en cours...|start=$(basename $test)"
-        echo
-        bash "$test"
-        echo
-        log_info "L'execution du test est termine...|end=$(basename $test)"
-    done
+    test_bash_run_tests
 }
 
 # execute le programme principal
@@ -42,8 +37,8 @@ test_facade_run()
 
     if [ "$method" = "" ]; then
         test_facade_help
-    elif [ "$method" = "run" ]; then
-        test_facade_run_tests "$@"
+    elif [ "$method" = "run_bash" ]; then
+        test_facade_run_bash "$@"
     elif [ "$method" = "help" ]; then
         test_facade_help
     else

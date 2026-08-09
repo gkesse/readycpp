@@ -9,6 +9,7 @@ source "$root_dir/cmd/bash/module/log.sh"
 
 # definit les facades du projet
 source "$root_dir/cmd/bash/facade/config.sh"
+source "$root_dir/cmd/bash/facade/git.sh"
 source "$root_dir/cmd/bash/facade/cmake.sh"
 source "$root_dir/cmd/bash/facade/test.sh"
 
@@ -26,6 +27,7 @@ cmd_help()
     echo "  - Liste des modules disponibles :"
     echo "      - help      : Affiche l'aide."
     echo "      - config    : Execute le module config."
+    echo "      - git       : Execute le module git."
     echo "      - cmake     : Execute le module cmake."
     echo "      - tests     : Execute le module des tests."
     echo
@@ -42,6 +44,8 @@ cmd_run()
         cmd_help
     elif [ "$module" = "config" ]; then
         config_facade_run "$@"
+    elif [ "$module" = "git" ]; then
+        git_facade_run "$@"
     elif [ "$module" = "cmake" ]; then
         cmake_facade_run "$@"
     elif [ "$module" = "tests" ]; then

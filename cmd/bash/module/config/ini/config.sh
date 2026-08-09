@@ -49,7 +49,7 @@ config_ini_get_param_file() {
         found && $1==k {print $2; exit}
     ' "$filename")
 
-    if [ -z $value ] ; then
+    if [ -z "$value" ] ; then
         value="$default"
     fi
 

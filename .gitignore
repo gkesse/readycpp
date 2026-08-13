@@ -1,4 +1,6 @@
 # ignore les fichiers
+~*
+*.bak
 
 # ignore les repertoires
 /build/

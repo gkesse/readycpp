@@ -24,9 +24,9 @@ set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 # definit la version du projet pour le module CPack
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 # definit l'adresse email du contact pour le module CPack
-set(CPACK_PACKAGE_CONTACT "Gerard <contacts@readydev.com>")
+set(CPACK_PACKAGE_CONTACT "Gerard KESSE <contact@readydev.com>")
 # definit le mainteneur du package pour le module CPack
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Gerard")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Gerard KESSE")
 # definit l'architecture du package pour le module CPack
 set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "arm64")
 # definit le générateur de package pour le module CPack

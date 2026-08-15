@@ -18,3 +18,10 @@ repos:
     rev: v1.53.0
     hooks:
       - id: ggshield
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v18.1.8
+    hooks:
+      - id: clang-format
+        args: ["-style=file"]
+        files: "\\.(c|cpp|h|hpp)$"

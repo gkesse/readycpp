@@ -1,0 +1,33 @@
+BasedOnStyle: Microsoft
+
+# Indentation
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# Longueur des lignes
+ColumnLimit: 120
+
+# Alignement des pointeurs
+PointerAlignment: Left
+
+# Espaces et mise en forme
+SpaceAfterCStyleCast: true
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpacesInAngles: false
+SpacesInContainerLiterals: true
+
+# Gestion des includes
+IncludeBlocks: Regroup
+SortIncludes: true
+
+# Alignement des déclarations
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignOperands: true
+
+# C++ moderne
+Cpp11BracedListStyle: true
+AllowShortFunctionsOnASingleLine: Empty
+BreakBeforeBraces: Attach

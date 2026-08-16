@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# definit le repertoire racine du projet
+: "${root_dir=$(dirname $(dirname $(dirname $0)))}"
+
+# definit les dependances du projet
+source "$root_dir/cmd/bash/module/log.sh"
+
+# execute le programme principal
+cmd_main()
+{
+    local MSG_FILE="$1"
+    local MSG=$(head -n 1 "$MSG_FILE")
+    local REGEX="^(feat|fix|docs|style|refactor|test|chore)\([a-zA-Z0-9_-]+\): .+"
+
+    if ! echo "$MSG" | grep -Eq "$REGEX"; then
+        log_error "❌ Le format de commit est invalide."
+        log_warn "Le format attendu est : type(scope): description"
+        exit 1
+    fi
+
+    log_info "✔ Le format de commit est valide."
+}
+
+# execute le programme principal
+cmd_main "$@"

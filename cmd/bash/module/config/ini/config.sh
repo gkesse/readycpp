@@ -115,7 +115,7 @@ config_ini_init_git()
     local pre_commit_dst=".pre-commit-config.yaml"
 
     # configure la validation des messages de commit
-    local commit_msg_src="hooks/commit-msg/cmd/commit-msg"
+    local commit_msg_src="../../hooks/commit-msg/cmd/commit-msg"
     local commit_msg_dst=".git/hooks/commit-msg"
 
     # configure la signature des commits
@@ -160,6 +160,7 @@ config_ini_init_git()
         unlink "$pre_commit_dst"
     fi
     ln -s "$pre_commit_src" "$pre_commit_dst"
+    source .venv/bin/activate
     pre-commit run --all-files
     echo
     pre-commit install

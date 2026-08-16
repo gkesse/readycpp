@@ -9,10 +9,9 @@
 // ajoute un module
 #define DEF_ADD_MODULE( _type, _name, _description )                           \
     do                                                                         \
-        {                                                                      \
-            m_module_list.push_back( { _type, _name, _description } );         \
-        }                                                                      \
-    while ( false );
+    {                                                                          \
+        m_module_list.push_back( { _type, _name, _description } );             \
+    } while ( false );
 
 namespace process
 {
@@ -22,9 +21,9 @@ Process::Process( int _argc, char** _argv )
     initModuleListe();
     loadArguments( _argc, _argv, m_arg_list );
     if ( !loadModule( m_module ) )
-        {
-            throw exception::Exception( "Le chargement du module a echoue." );
-        }
+    {
+        throw exception::Exception( "Le chargement du module a echoue." );
+    }
 }
 
 // cree un destructeur de process
@@ -34,10 +33,10 @@ Process::~Process() {}
 void Process::run()
 {
     if ( m_module == m_module_list.at( 1 ) )
-        {
-            runHelp();
-            return;
-        }
+    {
+        runHelp();
+        return;
+    }
 
     factory::Facade factory_facade( *this );
     factory_facade.create()->run();
@@ -58,10 +57,10 @@ void Process::initModuleListe()
 bool Process::loadModule( Module& _module )
 {
     if ( m_arg_list.size() <= 1 )
-        {
-            _module = m_module_list.at( 1 );
-            return true;
-        }
+    {
+        _module = m_module_list.at( 1 );
+        return true;
+    }
 
     std::string module_name = m_arg_list[1];
 
@@ -97,9 +96,9 @@ void Process::runHelp()
 void Process::loadArguments( int _argc, char** _argv, ArgList& _arg_list )
 {
     for ( int i = 0; i < _argc; ++i )
-        {
-            m_arg_list.push_back( _argv[i] );
-        }
+    {
+        m_arg_list.push_back( _argv[i] );
+    }
 }
 
 // cree un constructeur de module par defaut
@@ -152,20 +151,19 @@ bool Process::ModuleList::loadModuleByName( const std::string& _name,
                                             Module&            _module )
 {
     if ( _name.empty() )
-        {
-            _module = at( 1 );
-            return true;
-        }
+    {
+        _module = at( 1 );
+        return true;
+    }
 
-    auto it = std::find_if( begin(), end(), [&]( const Module& _obj ) {
-        return _obj.m_name == _name;
-    } );
+    auto it = std::find_if( begin(), end(), [&]( const Module& _obj )
+                            { return _obj.m_name == _name; } );
 
     if ( it != end() && it->m_type != MODULE_TYPE::INCONNU )
-        {
-            _module = *it;
-            return true;
-        }
+    {
+        _module = *it;
+        return true;
+    }
 
     _module = at( 0 );
     return false;

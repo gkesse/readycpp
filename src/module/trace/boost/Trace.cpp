@@ -23,9 +23,9 @@ void Trace::setBinaryName( const std::string& _binary_name )
 void Trace::print()
 {
     if ( m_binary_name.empty() )
-        {
-            throw exception::Exception( "Le nom du binaire est obligatoire." );
-        }
+    {
+        throw exception::Exception( "Le nom du binaire est obligatoire." );
+    }
 
     loadBinaryBase();
 
@@ -34,19 +34,19 @@ void Trace::print()
     std::cout << "Stack Trace:" << std::endl;
 
     for ( int i = 0; i < (int) st.size(); ++i )
+    {
+        uintptr_t addr      = reinterpret_cast<uintptr_t>( st[i].address() );
+        uintptr_t corrected = addr - m_binary_base;
+
+        // ignore les adresses hors du binaire
+        if ( corrected == 0 || corrected > 0xFFFFFFFF )
         {
-            uintptr_t addr = reinterpret_cast<uintptr_t>( st[i].address() );
-            uintptr_t corrected = addr - m_binary_base;
-
-            // ignore les adresses hors du binaire
-            if ( corrected == 0 || corrected > 0xFFFFFFFF )
-                {
-                    continue;
-                }
-
-            std::cout << "  " << i << ": " << formatAddr2Line( corrected )
-                      << std::endl;
+            continue;
         }
+
+        std::cout << "  " << i << ": " << formatAddr2Line( corrected )
+                  << std::endl;
+    }
 }
 
 // charge l'adresse de base du binaire
@@ -60,17 +60,17 @@ int Trace::onLoadBinaryBase( struct dl_phdr_info* info, size_t, void* )
 {
     // info->dlpi_name peut être vide pour le binaire principal
     if ( info->dlpi_name && std::strlen( info->dlpi_name ) > 0 )
+    {
+        if ( std::strstr( info->dlpi_name, "readycpp_tests" ) )
         {
-            if ( std::strstr( info->dlpi_name, "readycpp_tests" ) )
-                {
-                    m_binary_base = info->dlpi_addr;
-                }
-        }
-    else
-        {
-            // binaire principal : dlpi_name == ""
             m_binary_base = info->dlpi_addr;
         }
+    }
+    else
+    {
+        // binaire principal : dlpi_name == ""
+        m_binary_base = info->dlpi_addr;
+    }
 
     return 0;
 }

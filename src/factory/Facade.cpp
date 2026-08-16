@@ -10,10 +10,10 @@ Facade::Facade( Process& _process ) : m_process( _process )
 {
     initFactoryMap();
     if ( !loadFactoryFunc( m_factory_func ) )
-        {
-            throw exception::Exception(
-                "Le chargement de la factory fonction a echoue." );
-        }
+    {
+        throw exception::Exception(
+            "Le chargement de la factory fonction a echoue." );
+    }
 }
 
 // cree un destructeur de facade
@@ -28,19 +28,18 @@ Facade::sFacade Facade::create()
 // initialise la factory map
 void Facade::initFactoryMap()
 {
-    _factory_map[MODULE_TYPE::BDD] = [&]() {
-        return std::make_shared<facade::Bdd>( m_process );
-    };
+    _factory_map[MODULE_TYPE::BDD] = [&]()
+    { return std::make_shared<facade::Bdd>( m_process ); };
 }
 
 // charge la factory fonction
 bool Facade::loadFactoryFunc( FactoryFunc& _factory_func ) const
 {
     if ( _factory_map.count( m_process.m_module.m_type ) )
-        {
-            _factory_func = _factory_map.at( m_process.m_module.m_type );
-            return true;
-        }
+    {
+        _factory_func = _factory_map.at( m_process.m_module.m_type );
+        return true;
+    }
     return false;
 }
 } // namespace factory

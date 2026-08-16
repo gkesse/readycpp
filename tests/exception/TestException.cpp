@@ -17,95 +17,92 @@ protected:
 TEST_F( TestException, Test_Exception_Par_Defaut )
 {
     try
-        {
-            // leve une exception
-            throw Exception();
-            FAIL() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // leve une exception
+        throw Exception();
+        FAIL() << "Exception attendue (execption::Exception) non levee.";
+    }
     catch ( const Exception& e )
-        {
-            // teste l'exception levee
-            EXPECT_TRUE( std::string( e.what() ) ==
-                         "Un probleme a ete rencontre." );
-        }
+    {
+        // teste l'exception levee
+        EXPECT_TRUE( std::string( e.what() ) ==
+                     "Un probleme a ete rencontre." );
+    }
     catch ( const std::exception& e )
-        {
-            // teste l'exception levee
-            EXPECT_TRUE( std::string( e.what() ) ==
-                         "Un probleme a ete rencontre." );
-            FAIL() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // teste l'exception levee
+        EXPECT_TRUE( std::string( e.what() ) ==
+                     "Un probleme a ete rencontre." );
+        FAIL() << "Exception attendue (execption::Exception) non levee.";
+    }
     catch ( ... )
-        {
-            // teste l'exception levee
-            FAIL() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // teste l'exception levee
+        FAIL() << "Exception attendue (execption::Exception) non levee.";
+    }
 }
 
 // teste la capture de l'exception par donnees
 TEST_F( TestException, Test_Exception_Par_Donnees )
 {
     try
-        {
-            // leve une exception
-            throw Exception( "MESSAGE_ERREUR_EXCEPTION" );
-            FAIL() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // leve une exception
+        throw Exception( "MESSAGE_ERREUR_EXCEPTION" );
+        FAIL() << "Exception attendue (execption::Exception) non levee.";
+    }
     catch ( const Exception& e )
-        {
-            // teste l'exception levee
-            EXPECT_TRUE( std::string( e.what() ) ==
-                         "MESSAGE_ERREUR_EXCEPTION" );
-        }
+    {
+        // teste l'exception levee
+        EXPECT_TRUE( std::string( e.what() ) == "MESSAGE_ERREUR_EXCEPTION" );
+    }
     catch ( const std::exception& e )
-        {
-            // teste l'exception levee
-            EXPECT_TRUE( std::string( e.what() ) ==
-                         "MESSAGE_ERREUR_EXCEPTION" );
-            FAIL() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // teste l'exception levee
+        EXPECT_TRUE( std::string( e.what() ) == "MESSAGE_ERREUR_EXCEPTION" );
+        FAIL() << "Exception attendue (execption::Exception) non levee.";
+    }
     catch ( ... )
-        {
-            // teste l'exception levee
-            FAIL() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // teste l'exception levee
+        FAIL() << "Exception attendue (execption::Exception) non levee.";
+    }
 }
 
 // teste la capture de l'exception standard
 TEST_F( TestException, Test_Exception_Standard )
 {
     try
-        {
-            // leve une exception
-            throw Exception( "MESSAGE_ERREUR_EXCEPTION" );
-            FAIL() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // leve une exception
+        throw Exception( "MESSAGE_ERREUR_EXCEPTION" );
+        FAIL() << "Exception attendue (execption::Exception) non levee.";
+    }
     catch ( const std::exception& e )
-        {
-            // teste l'exception levee
-            EXPECT_TRUE( std::string( e.what() ) ==
-                         "MESSAGE_ERREUR_EXCEPTION" );
-        }
+    {
+        // teste l'exception levee
+        EXPECT_TRUE( std::string( e.what() ) == "MESSAGE_ERREUR_EXCEPTION" );
+    }
     catch ( ... )
-        {
-            // teste l'exception levee
-            FAIL() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // teste l'exception levee
+        FAIL() << "Exception attendue (execption::Exception) non levee.";
+    }
 }
 
 // teste la capture de l'exception globale
 TEST_F( TestException, Test_Exception_Globale )
 {
     try
-        {
-            // leve une exception
-            throw Exception( "MESSAGE_ERREUR_EXCEPTION" );
-            FAIL() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // leve une exception
+        throw Exception( "MESSAGE_ERREUR_EXCEPTION" );
+        FAIL() << "Exception attendue (execption::Exception) non levee.";
+    }
     catch ( ... )
-        {
-            // teste l'exception levee
-            SUCCEED() << "Exception attendue (execption::Exception) non levee.";
-        }
+    {
+        // teste l'exception levee
+        SUCCEED() << "Exception attendue (execption::Exception) non levee.";
+    }
 }
 } // namespace exception

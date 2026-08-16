@@ -125,22 +125,23 @@ TEST_F( TestProcess, Test_Egalite_Modules )
     };
 
     // execute un test parametrique
-    auto runTest = [&]( const TestParam& _test_param ) {
+    auto runTest = [&]( const TestParam& _test_param )
+    {
         if ( _test_param.m_result.m_est_egal )
-            {
-                EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 == _test_param.m_module );
-            }
+        {
+            EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 == _test_param.m_module );
+        }
         else
-            {
-                EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 != _test_param.m_module );
-            }
+        {
+            EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 != _test_param.m_module );
+        }
     };
 
     // execute les tests parametriques
     for ( const auto& test_param : test_param_list )
-        {
-            runTest( test_param );
-        }
+    {
+        runTest( test_param );
+    }
 }
 
 // teste le chargement d'un module
@@ -215,7 +216,8 @@ TEST_F( TestProcess, Test_Chargement_Module )
     };
 
     // execute un test parametrique
-    auto runTest = [&]( const TestParam& _test_param ) {
+    auto runTest = [&]( const TestParam& _test_param )
+    {
         // cree un process
         Process process;
 
@@ -234,9 +236,9 @@ TEST_F( TestProcess, Test_Chargement_Module )
 
     // execute les tests parametriques
     for ( const auto& test_param : test_param_list )
-        {
-            runTest( test_param );
-        }
+    {
+        runTest( test_param );
+    }
 }
 
 // teste l'execution d'un module
@@ -288,7 +290,8 @@ TEST_F( TestProcess, Test_Execution_Module )
     };
 
     // execute un test parametrique
-    auto runTest = [&]( const TestParam& _test_param ) {
+    auto runTest = [&]( const TestParam& _test_param )
+    {
         // cree un process
         Process process;
 
@@ -306,8 +309,8 @@ TEST_F( TestProcess, Test_Execution_Module )
 
     // execute les tests parametriques
     for ( const auto& test_param : test_param_list )
-        {
-            runTest( test_param );
-        }
+    {
+        runTest( test_param );
+    }
 }
 } // namespace process

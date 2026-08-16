@@ -40,7 +40,8 @@ TEST_F( TestFacadeFactory, Test_Chargement_Factory )
     };
 
     // execute un test parametrique
-    auto runTest = [&]( const TestParam& _test_param ) {
+    auto runTest = [&]( const TestParam& _test_param )
+    {
         // cree un mock de process
         process::Process process;
 
@@ -59,9 +60,9 @@ TEST_F( TestFacadeFactory, Test_Chargement_Factory )
 
     // execute les tests parametriques
     for ( const auto& test_param : test_param_list )
-        {
-            runTest( test_param );
-        }
+    {
+        runTest( test_param );
+    }
 }
 
 // teste le chargement d'une factory invalide
@@ -89,7 +90,8 @@ TEST_F( TestFacadeFactory, Test_Chargement_Factory_Invalide )
     };
 
     // execute un test parametrique
-    auto runTest = [&]( const TestParam& _test_param ) {
+    auto runTest = [&]( const TestParam& _test_param )
+    {
         // cree un mock de process
         process::Process process;
 
@@ -97,38 +99,35 @@ TEST_F( TestFacadeFactory, Test_Chargement_Factory_Invalide )
         process.setModule( _test_param.m_module );
 
         try
-            {
-                // cree une factory facade
-                Facade factory_facade( process );
-                FAIL()
-                    << "Exception attendue (execption::Exception) non levee.";
-            }
+        {
+            // cree une factory facade
+            Facade factory_facade( process );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
         catch ( const exception::Exception& e )
-            {
-                // teste la capture de l'exception levee
-                EXPECT_TRUE( std::string( e.what() ) ==
-                             "Le chargement de la factory fonction a echoue." );
-            }
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) ==
+                         "Le chargement de la factory fonction a echoue." );
+        }
         catch ( const std::exception& e )
-            {
-                // teste la capture de l'exception levee
-                EXPECT_TRUE( std::string( e.what() ) ==
-                             "Le chargement de la factory fonction a echoue." );
-                FAIL()
-                    << "Exception attendue (execption::Exception) non levee.";
-            }
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) ==
+                         "Le chargement de la factory fonction a echoue." );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
         catch ( ... )
-            {
-                // teste la capture de l'exception levee
-                FAIL()
-                    << "Exception attendue (execption::Exception) non levee.";
-            }
+        {
+            // teste la capture de l'exception levee
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
     };
 
     // execute les tests parametriques
     for ( const auto& test_param : test_param_list )
-        {
-            runTest( test_param );
-        }
+    {
+        runTest( test_param );
+    }
 }
 } // namespace factory

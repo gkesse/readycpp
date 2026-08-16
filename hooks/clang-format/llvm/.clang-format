@@ -36,4 +36,4 @@ Cpp11BracedListStyle: true
 AllowShortFunctionsOnASingleLine: Empty
 
 # Style des accolades
-BreakBeforeBraces: GNU
+BreakBeforeBraces: Allman

@@ -2,7 +2,7 @@
 set -e
 
 # definit le repertoire racine du projet
-: "${root_dir=$(dirname $(dirname $(dirname $0)))}"
+: "${root_dir=$(dirname $(dirname $(dirname $(dirname $0))))}"
 
 # definit les dependances du projet
 source "$root_dir/cmd/bash/module/log.sh"

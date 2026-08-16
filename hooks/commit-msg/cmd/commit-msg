@@ -20,6 +20,7 @@ cmd_main()
     fi
 
     log_info "✔ Le format de commit est valide."
+    exit 0
 }
 
 # execute le programme principal

@@ -2,6 +2,8 @@
 ~*
 *.bak
 .cache_ggshield
+/.pre-commit-config.yaml
+/.clang-format
 
 # ignore les repertoires
 /build/

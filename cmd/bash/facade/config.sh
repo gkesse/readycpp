@@ -20,11 +20,24 @@ config_facade_help()
     echo
     echo "  - Liste des méthodes disponibles :"
     echo "      - help          : Affiche l'aide."
+    echo "      - ini           : Installe les configurations ini du projet."
     echo "      - generate_ini  : Genere le fichier de configuration ini du projet."
     echo
 }
 
-# genere le fichiers de configuration ini du projet
+# initialise les configuration ini du projet
+config_facade_init_ini()
+{
+    echo
+    log_info "L'installation des configurations ini du projet est en cours..."
+    echo
+    config_ini_init
+    echo
+    log_info "L'installation des configurations ini du projet est terminee..."
+    echo
+}
+
+# genere le fichier de configuration ini du projet
 config_facade_generate_ini()
 {
     echo
@@ -43,6 +56,8 @@ config_facade_run()
 
     if [ "$method" = "" ]; then
         config_facade_help
+    elif [ "$method" = "ini" ]; then
+        config_facade_init_ini "$@"
     elif [ "$method" = "generate_ini" ]; then
         config_facade_generate_ini "$@"
     elif [ "$method" = "help" ]; then

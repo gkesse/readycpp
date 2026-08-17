@@ -1,9 +1,10 @@
-#include <gtest/gtest.h>
-#include <module/trace/backtrace/Trace.hpp>
+#include "module/trace/backtrace/Trace.hpp"
 
-int main( int argc, char** argv )
+#include <gtest/gtest.h>
+
+int main( int _argc, char** _argv )
 {
-    module::trace::backtrace::Trace::setBinaryName( argv[0] );
-    ::testing::InitGoogleTest( &argc, argv );
+    module::trace::backtrace::Trace::setBinaryName( _argv[0] );
+    ::testing::InitGoogleTest( &_argc, _argv );
     return RUN_ALL_TESTS();
 }

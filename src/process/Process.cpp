@@ -7,10 +7,10 @@
 #include <iostream>
 
 // ajoute un module
-#define DEF_ADD_MODULE( _type, _name, _description )                           \
-    do                                                                         \
-    {                                                                          \
-        m_module_list.push_back( { _type, _name, _description } );             \
+#define DEF_ADD_MODULE( _type, _name, _description )                                                                                                                                                   \
+    do                                                                                                                                                                                                 \
+    {                                                                                                                                                                                                  \
+        m_module_list.push_back( { _type, _name, _description } );                                                                                                                                     \
     } while ( false );
 
 namespace process
@@ -47,10 +47,8 @@ void Process::initModuleListe()
 {
     DEF_ADD_MODULE( MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu." );
     DEF_ADD_MODULE( MODULE_TYPE::HELP, "help", "Affiche l'aide." );
-    DEF_ADD_MODULE( MODULE_TYPE::SERVER_BOOST, "server_boost",
-                    "Execute le module de gestion du serveur boost." );
-    DEF_ADD_MODULE( MODULE_TYPE::BDD, "bdd",
-                    "Execute le module de gestion de base de donnees." );
+    DEF_ADD_MODULE( MODULE_TYPE::SERVER_BOOST, "server_boost", "Execute le module de gestion du serveur boost." );
+    DEF_ADD_MODULE( MODULE_TYPE::BDD, "bdd", "Execute le module de gestion de base de donnees." );
 }
 
 // charge le module correspondant à l'argument cli
@@ -74,21 +72,14 @@ void Process::runHelp()
     std::cout << "Usage: readycpp <module> <method> [params]" << std::endl;
     std::cout << std::endl;
     std::cout << "  - Description des arguments:" << std::endl;
-    std::cout << "      - <module>  : Indique le module (obligatoire)."
-              << std::endl;
-    std::cout << "      - <method>  : Indique la methode (obligatoire)."
-              << std::endl;
-    std::cout << "      - [params]  : Indique les parametres (optionnels)."
-              << std::endl;
+    std::cout << "      - <module>  : Indique le module (obligatoire)." << std::endl;
+    std::cout << "      - <method>  : Indique la methode (obligatoire)." << std::endl;
+    std::cout << "      - [params]  : Indique les parametres (optionnels)." << std::endl;
     std::cout << std::endl;
     std::cout << "  - Liste des modules disponibles:" << std::endl;
     std::cout << "      - help          : Affiche l'aide." << std::endl;
-    std::cout << "      - server_boost  : Execute le module de gestion du "
-                 "serveur boost."
-              << std::endl;
-    std::cout << "      - bdd           : Execute le module de gestion de base "
-                 "de donnees."
-              << std::endl;
+    std::cout << "      - server_boost  : Execute le module de gestion du serveur boost." << std::endl;
+    std::cout << "      - bdd           : Execute le module de gestion de base de donnees." << std::endl;
     std::cout << std::endl;
 }
 
@@ -102,18 +93,10 @@ void Process::loadArguments( int _argc, char** _argv, ArgList& _arg_list )
 }
 
 // cree un constructeur de module par defaut
-Process::Module::Module()
-    : m_type( MODULE_TYPE::INCONNU ), m_name( "inconnu" ),
-      m_description( "Le module est inconnu." )
-{
-}
+Process::Module::Module() : m_type( MODULE_TYPE::INCONNU ), m_name( "inconnu" ), m_description( "Le module est inconnu." ) {}
 
 // cree un constructeur de module
-Process::Module::Module( MODULE_TYPE _type, const std::string& _name,
-                         const std::string& _description )
-    : m_type( _type ), m_name( _name ), m_description( _description )
-{
-}
+Process::Module::Module( MODULE_TYPE _type, const std::string& _name, const std::string& _description ) : m_type( _type ), m_name( _name ), m_description( _description ) {}
 
 // cree un constructeur de module par copie
 Process::Module::Module( const Module& _module )
@@ -147,8 +130,7 @@ bool Process::Module::operator!=( const Module& _module ) const
 }
 
 // charge un module par son nom
-bool Process::ModuleList::loadModuleByName( const std::string& _name,
-                                            Module&            _module )
+bool Process::ModuleList::loadModuleByName( const std::string& _name, Module& _module )
 {
     if ( _name.empty() )
     {
@@ -156,8 +138,7 @@ bool Process::ModuleList::loadModuleByName( const std::string& _name,
         return true;
     }
 
-    auto it = std::find_if( begin(), end(), [&]( const Module& _obj )
-                            { return _obj.m_name == _name; } );
+    auto it = std::find_if( begin(), end(), [&]( const Module& _obj ) { return _obj.m_name == _name; } );
 
     if ( it != end() && it->m_type != MODULE_TYPE::INCONNU )
     {

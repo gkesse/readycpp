@@ -1,5 +1,5 @@
-#include <module/trace/backtrace/Trace.hpp>
-#include <process/Process.hpp>
+#include "module/trace/backtrace/Trace.hpp"
+#include "process/Process.hpp"
 
 // cree le programme principal
 int main( int _argc, char** _argv )

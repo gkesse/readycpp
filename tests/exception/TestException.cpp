@@ -1,4 +1,5 @@
-#include <exception/Exception.hpp>
+#include "exception/Exception.hpp"
+
 #include <gtest/gtest.h>
 
 namespace exception
@@ -25,14 +26,12 @@ TEST_F( TestException, Test_Exception_Par_Defaut )
     catch ( const Exception& e )
     {
         // teste l'exception levee
-        EXPECT_TRUE( std::string( e.what() ) ==
-                     "Un probleme a ete rencontre." );
+        EXPECT_TRUE( std::string( e.what() ) == "Un probleme a ete rencontre." );
     }
     catch ( const std::exception& e )
     {
         // teste l'exception levee
-        EXPECT_TRUE( std::string( e.what() ) ==
-                     "Un probleme a ete rencontre." );
+        EXPECT_TRUE( std::string( e.what() ) == "Un probleme a ete rencontre." );
         FAIL() << "Exception attendue (execption::Exception) non levee.";
     }
     catch ( ... )

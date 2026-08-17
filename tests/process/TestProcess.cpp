@@ -1,6 +1,7 @@
+#include "process/Process.hpp"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <process/Process.hpp>
 
 namespace process
 {
@@ -28,8 +29,7 @@ TEST_F( TestProcess, Test_Nombre_Modules )
 TEST_F( TestProcess, Test_Module_Inconnu )
 {
     // cree le module inconnu
-    Process::Module DEF_MODULE_INCONNU = {
-        Process::MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu." };
+    Process::Module DEF_MODULE_INCONNU = { Process::MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu." };
 
     // cree le module process
     Process process;
@@ -45,8 +45,7 @@ TEST_F( TestProcess, Test_Module_Inconnu )
 TEST_F( TestProcess, Test_Module_Aide )
 {
     // cree le module d'aide
-    Process::Module DEF_MODULE_HELP = { Process::MODULE_TYPE::HELP, "help",
-                                        "Affiche l'aide." };
+    Process::Module DEF_MODULE_HELP = { Process::MODULE_TYPE::HELP, "help", "Affiche l'aide." };
 
     // cree le module process
     Process process;
@@ -89,20 +88,16 @@ TEST_F( TestProcess, Test_Egalite_Modules )
     using TestParamList = std::vector<TestParam>;
 
     // cree un module d'aide ok (1, 1)
-    const Process::Module DEF_MODULE_HELP_OK_1_1 = {
-        Process::MODULE_TYPE::HELP, "MODULE_NAME_1", "MODULE_DESCRIPTION_1" };
+    const Process::Module DEF_MODULE_HELP_OK_1_1 = { Process::MODULE_TYPE::HELP, "MODULE_NAME_1", "MODULE_DESCRIPTION_1" };
 
     // cree un module de bdd nok (1, 1)
-    const Process::Module DEF_MODULE_BDD_NOK_1_1 = {
-        Process::MODULE_TYPE::BDD, "MODULE_NAME_1", "MODULE_DESCRIPTION_1" };
+    const Process::Module DEF_MODULE_BDD_NOK_1_1 = { Process::MODULE_TYPE::BDD, "MODULE_NAME_1", "MODULE_DESCRIPTION_1" };
 
     // cree un module d'aide nok (2, 1)
-    const Process::Module DEF_MODULE_HELP_NOK_2_1 = {
-        Process::MODULE_TYPE::HELP, "MODULE_NAME_2", "MODULE_DESCRIPTION_1" };
+    const Process::Module DEF_MODULE_HELP_NOK_2_1 = { Process::MODULE_TYPE::HELP, "MODULE_NAME_2", "MODULE_DESCRIPTION_1" };
 
     // cree un module d'aide nok (1, 2)
-    const Process::Module DEF_MODULE_HELP_NOK_1_2 = {
-        Process::MODULE_TYPE::HELP, "MODULE_NAME_1", "MODULE_DESCRIPTION_2" };
+    const Process::Module DEF_MODULE_HELP_NOK_1_2 = { Process::MODULE_TYPE::HELP, "MODULE_NAME_1", "MODULE_DESCRIPTION_2" };
 
     // remplit une liste de structure de tests parametriques
     const TestParamList test_param_list = {
@@ -181,17 +176,13 @@ TEST_F( TestProcess, Test_Chargement_Module )
     const Process::ArgList DEF_ARGS_BDD_OK = { "readycpp", "bdd" };
 
     // cree un module inconnu (ok)
-    const Process::Module DEF_MODULE_INCONNU_OK = {
-        Process::MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu." };
+    const Process::Module DEF_MODULE_INCONNU_OK = { Process::MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu." };
 
     // cree un module inconnu (ok)
-    const Process::Module DEF_MODULE_HELP_OK = { Process::MODULE_TYPE::HELP,
-                                                 "help", "Affiche l'aide." };
+    const Process::Module DEF_MODULE_HELP_OK = { Process::MODULE_TYPE::HELP, "help", "Affiche l'aide." };
 
     // cree un module bdd (ok)
-    const Process::Module DEF_MODULE_BDD_OK = {
-        Process::MODULE_TYPE::BDD, "bdd",
-        "Execute le module de gestion de base de donnees." };
+    const Process::Module DEF_MODULE_BDD_OK = { Process::MODULE_TYPE::BDD, "bdd", "Execute le module de gestion de base de donnees." };
 
     // remplit une liste de structure de tests parametriques
     const TestParamList test_param_list = {

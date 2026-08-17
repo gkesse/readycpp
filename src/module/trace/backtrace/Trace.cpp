@@ -1,7 +1,8 @@
 #include "module/trace/backtrace/Trace.hpp"
 
+#include "exception/Exception.hpp"
+
 #include <cstring>
-#include <exception/Exception.hpp>
 #include <execinfo.h>
 #include <iomanip>
 #include <iostream>
@@ -44,8 +45,7 @@ void Trace::print()
             continue;
         }
 
-        std::cout << "  " << i << ": " << formatAddr2Line( corrected )
-                  << std::endl;
+        std::cout << "  " << i << ": " << formatAddr2Line( corrected ) << std::endl;
     }
 }
 
@@ -80,8 +80,7 @@ std::string Trace::formatAddr2Line( uintptr_t corrected )
 {
     std::stringstream cmd;
     cmd << "addr2line -f -C -e " << m_binary_name << " "
-        << "0x" << std::hex << std::setw( 16 ) << std::setfill( '0' )
-        << corrected;
+        << "0x" << std::hex << std::setw( 16 ) << std::setfill( '0' ) << corrected;
 
     FILE* fp = popen( cmd.str().c_str(), "r" );
     if ( !fp )

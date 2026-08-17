@@ -1,7 +1,8 @@
-#include <facade/Facade.hpp>
+#include "facade/Facade.hpp"
+#include "process/Process.hpp"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <process/Process.hpp>
 
 namespace facade
 {

@@ -10,7 +10,7 @@ IndentAccessModifiers: false
 AccessModifierOffset: -4
 
 # Longueur des lignes
-ColumnLimit: 80
+ColumnLimit: 200
 
 # Alignement des pointeurs
 PointerAlignment: Left

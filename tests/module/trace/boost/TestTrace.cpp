@@ -1,6 +1,7 @@
+#include "module/trace/boost/Trace.hpp"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <module/trace/boost/Trace.hpp>
 
 namespace module::trace::boosttrace
 {

@@ -1,6 +1,14 @@
 repos:
   - repo: local
     hooks:
+      - id: readycpp-tests
+        name: Validation des tests unitaires c++
+        entry: hooks/pre-commit/cmd/readycpp-cpp-tests.sh
+        language: system
+        pass_filenames: false
+
+  - repo: local
+    hooks:
       - id: readycpp-bash-tests
         name: Validation des tests unitaires bash
         entry: hooks/pre-commit/cmd/readycpp-bash-tests.sh

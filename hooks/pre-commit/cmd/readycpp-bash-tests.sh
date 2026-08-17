@@ -20,7 +20,7 @@ cmd_main()
         exit 1
     fi
 
-    log_info "✔️  L'execution des tests c++ est termine avec succes..."
+    log_info "✔️  L'execution des tests c++ est terminee avec succes..."
     exit 0
 }
 

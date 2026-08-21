@@ -1,6 +1,7 @@
+#include "module/trace/backtrace/Trace.hpp"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <module/trace/backtrace/Trace.hpp>
 
 namespace module::trace::backtrace
 {

@@ -1,7 +1,8 @@
 #include "facade/Bdd.hpp"
 
+#include "module/trace/backtrace/Trace.hpp"
+
 #include <iostream>
-#include <module/trace/backtrace/Trace.hpp>
 
 namespace facade
 {

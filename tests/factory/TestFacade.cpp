@@ -1,6 +1,7 @@
-#include <exception/Exception.hpp>
-#include <facade/Bdd.hpp>
-#include <factory/Facade.hpp>
+#include "exception/Exception.hpp"
+#include "facade/Bdd.hpp"
+#include "factory/Facade.hpp"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -30,8 +31,7 @@ TEST_F( TestFacadeFactory, Test_Chargement_Factory )
     using TestParamList = std::vector<TestParam>;
 
     // cree un module bdd
-    const process::Process::Module DEF_MODULE_BDD = {
-        Facade::MODULE_TYPE::BDD, "MODULE_BDD_NAME", "MODULE_BDD_DESCRIPTION" };
+    const process::Process::Module DEF_MODULE_BDD = { Facade::MODULE_TYPE::BDD, "MODULE_BDD_NAME", "MODULE_BDD_DESCRIPTION" };
 
     // remplit une liste de structure de tests parametriques
     const TestParamList test_param_list = {
@@ -52,10 +52,8 @@ TEST_F( TestFacadeFactory, Test_Chargement_Factory )
         Facade          factory_facade( process );
         Facade::sFacade facade = factory_facade.create();
 
-        EXPECT_TRUE( std::dynamic_pointer_cast<facade::Facade>( facade ) !=
-                     nullptr );
-        EXPECT_TRUE( std::dynamic_pointer_cast<facade::Bdd>( facade ) !=
-                     nullptr );
+        EXPECT_TRUE( std::dynamic_pointer_cast<facade::Facade>( facade ) != nullptr );
+        EXPECT_TRUE( std::dynamic_pointer_cast<facade::Bdd>( facade ) != nullptr );
     };
 
     // execute les tests parametriques
@@ -79,9 +77,7 @@ TEST_F( TestFacadeFactory, Test_Chargement_Factory_Invalide )
     using TestParamList = std::vector<TestParam>;
 
     // cree un module help
-    const process::Process::Module DEF_MODULE_HELP = {
-        Facade::MODULE_TYPE::HELP, "MODULE_BDD_NAME",
-        "MODULE_BDD_DESCRIPTION" };
+    const process::Process::Module DEF_MODULE_HELP = { Facade::MODULE_TYPE::HELP, "MODULE_BDD_NAME", "MODULE_BDD_DESCRIPTION" };
 
     // remplit une liste de structure de tests parametriques
     const TestParamList test_param_list = {
@@ -107,14 +103,12 @@ TEST_F( TestFacadeFactory, Test_Chargement_Factory_Invalide )
         catch ( const exception::Exception& e )
         {
             // teste la capture de l'exception levee
-            EXPECT_TRUE( std::string( e.what() ) ==
-                         "Le chargement de la factory fonction a echoue." );
+            EXPECT_TRUE( std::string( e.what() ) == "Le chargement de la factory fonction a echoue." );
         }
         catch ( const std::exception& e )
         {
             // teste la capture de l'exception levee
-            EXPECT_TRUE( std::string( e.what() ) ==
-                         "Le chargement de la factory fonction a echoue." );
+            EXPECT_TRUE( std::string( e.what() ) == "Le chargement de la factory fonction a echoue." );
             FAIL() << "Exception attendue (execption::Exception) non levee.";
         }
         catch ( ... )

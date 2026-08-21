@@ -1,7 +1,7 @@
 #include "factory/Facade.hpp"
 
-#include <exception/Exception.hpp>
-#include <facade/Bdd.hpp>
+#include "exception/Exception.hpp"
+#include "facade/Bdd.hpp"
 
 namespace factory
 {
@@ -11,8 +11,7 @@ Facade::Facade( Process& _process ) : m_process( _process )
     initFactoryMap();
     if ( !loadFactoryFunc( m_factory_func ) )
     {
-        throw exception::Exception(
-            "Le chargement de la factory fonction a echoue." );
+        throw exception::Exception( "Le chargement de la factory fonction a echoue." );
     }
 }
 
@@ -28,8 +27,7 @@ Facade::sFacade Facade::create()
 // initialise la factory map
 void Facade::initFactoryMap()
 {
-    _factory_map[MODULE_TYPE::BDD] = [&]()
-    { return std::make_shared<facade::Bdd>( m_process ); };
+    _factory_map[MODULE_TYPE::BDD] = [&]() { return std::make_shared<facade::Bdd>( m_process ); };
 }
 
 // charge la factory fonction

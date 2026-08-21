@@ -1,4 +1,5 @@
 #include "process/Process.hpp"
+#include "tools/string/Tools.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -15,293 +16,266 @@ protected:
     void TearDown() override {}
 };
 
+// teste la creation d'un process invalide
+TEST_F( TestProcess, Test_Creation_Process_Invalide )
+{
+    // definit le message d'erreur de l'exception
+    const std::string DEF_MESSAGE_ERREUR_EXCEPTION = "Le chargement du module a echoue.|function={process::Process::Process()}";
+
+    {
+        try
+        {
+            // cree le module process
+            Process process( {} );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+        catch ( const exception::Exception& e )
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) == DEF_MESSAGE_ERREUR_EXCEPTION );
+        }
+        catch ( const std::exception& e )
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) == DEF_MESSAGE_ERREUR_EXCEPTION );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+        catch ( ... )
+        {
+            // teste la capture de l'exception levee
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+    }
+    {
+        try
+        {
+            // cree le module process
+            Process process( { "" } );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+        catch ( const exception::Exception& e )
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) == DEF_MESSAGE_ERREUR_EXCEPTION );
+        }
+        catch ( const std::exception& e )
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) == DEF_MESSAGE_ERREUR_EXCEPTION );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+        catch ( ... )
+        {
+            // teste la capture de l'exception levee
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+    }
+}
+
 // teste le nombre de modules
 TEST_F( TestProcess, Test_Nombre_Modules )
 {
     // cree le module process
-    Process process;
+    Process process( { "setup" } );
 
     // teste le nombre de modules
-    EXPECT_TRUE( process.m_module_list.size() >= 2 );
+    EXPECT_TRUE( process.getModuleListe().size() >= 3 );
 }
 
-// teste le module inconnu
-TEST_F( TestProcess, Test_Module_Inconnu )
+// teste la position du module inconnu
+TEST_F( TestProcess, Test_Position_Module_Inconnu )
 {
+    //  cree les types personnalises
+    using Module      = Process::Module;
+    using MODULE_TYPE = Process::MODULE_TYPE;
+
     // cree le module inconnu
-    Process::Module DEF_MODULE_INCONNU = { Process::MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu." };
+    Module DEF_MODULE_INCONNU = { MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu." };
 
     // cree le module process
-    Process process;
-
-    // recupere le module inconnu
-    Process::Module module_inconnu = process.m_module_list.at( 0 );
+    Process process( { "setup" } );
 
     // teste le module inconnu
-    EXPECT_TRUE( module_inconnu == DEF_MODULE_INCONNU );
+    EXPECT_TRUE( process.getModuleListe().at( 0 ) == DEF_MODULE_INCONNU );
 }
 
-// teste le module d'aide
-TEST_F( TestProcess, Test_Module_Aide )
+// teste la position du module d'aide
+TEST_F( TestProcess, Test_Position_Module_Aide )
 {
+    //  cree les types personnalises
+    using Module      = Process::Module;
+    using MODULE_TYPE = Process::MODULE_TYPE;
+
     // cree le module d'aide
-    Process::Module DEF_MODULE_HELP = { Process::MODULE_TYPE::HELP, "help", "Affiche l'aide." };
+    Module DEF_MODULE_HELP = { MODULE_TYPE::HELP, "help", "Affiche l'aide." };
 
     // cree le module process
-    Process process;
+    Process process( { "setup" } );
 
-    // recupere le module d'aide
-    Process::Module module_help = process.m_module_list.at( 1 );
+    // teste le module d'aide
+    EXPECT_TRUE( process.getModuleListe().at( 1 ) == DEF_MODULE_HELP );
+}
 
-    // teste le module inconnu
-    EXPECT_TRUE( module_help == DEF_MODULE_HELP );
+// teste la position du module de test
+TEST_F( TestProcess, Test_Position_Module_Test )
+{
+    //  cree les types personnalises
+    using Module      = Process::Module;
+    using MODULE_TYPE = Process::MODULE_TYPE;
+
+    // cree le module de test
+    Module DEF_MODULE_TEST = { MODULE_TYPE::TEST, "test", "Execute le module de test." };
+
+    // cree le module process
+    Process process( { "setup" } );
+
+    // teste le module de test
+    EXPECT_TRUE( process.getModuleListe().at( 2 ) == DEF_MODULE_TEST );
 }
 
 // teste l'affichage du menu d'aide
 TEST_F( TestProcess, Test_Affichage_Menu_Aide )
 {
-    // cree un process
-    Process process;
+    //  cree les types personnalises
+    using Module = Process::Module;
+
+    // definit l'entete du menu d'aide
+    const std::string DEF_HELP_MENU_HEADER = "Usage: readycpp <module> <method> [params]";
+
+    // definit le module du menu d'aide
+    const std::string DEF_HELP_MENU_MODULE = "<module>  : Indique le module (obligatoire).";
+
+    // cree le process
+    Process process( { "setup" } );
+
+    // initialise la capture de la sortie standard
+    testing::internal::CaptureStdout();
 
     // affiche l'aide
     process.run();
+
+    // recupere la capture de la sortie standard
+    std::string output = testing::internal::GetCapturedStdout();
+
+    // cree un tools_string
+    tools::string::Tools tools_string;
+
+    // teste l'execution de la methode
+    EXPECT_TRUE( tools_string.contains( output, DEF_HELP_MENU_HEADER ) );
+    EXPECT_TRUE( tools_string.contains( output, DEF_HELP_MENU_MODULE ) );
 }
 
 // teste l'egalite entre 2 modules
 TEST_F( TestProcess, Test_Egalite_Modules )
 {
-    // cree une structure de tests parametriques
-    struct TestParam
+    // cree les types personnalises
+    using Module      = Process::Module;
+    using MODULE_TYPE = Process::MODULE_TYPE;
+
+    // cree le module d'aide ok (1, 1)
+    const Module DEF_MODULE_HELP_OK_1_1 = { MODULE_TYPE::HELP, "MODULE_NAME_1", "MODULE_DESCRIPTION_1" };
+
+    // cree le module de test nok (1, 1)
+    const Module DEF_MODULE_TEST_NOK_1_1 = { MODULE_TYPE::TEST, "MODULE_NAME_1", "MODULE_DESCRIPTION_1" };
+
+    // cree le module d'aide nok (2, 1)
+    const Module DEF_MODULE_HELP_NOK_2_1 = { MODULE_TYPE::HELP, "MODULE_NAME_2", "MODULE_DESCRIPTION_1" };
+
+    // cree le module d'aide nok (1, 2)
+    const Module DEF_MODULE_HELP_NOK_1_2 = { MODULE_TYPE::HELP, "MODULE_NAME_1", "MODULE_DESCRIPTION_2" };
+
+    // teste l'egalite entre 2 modules
+    EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 == DEF_MODULE_HELP_OK_1_1 );
+    EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 != DEF_MODULE_TEST_NOK_1_1 );
+    EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 != DEF_MODULE_HELP_NOK_2_1 );
+    EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 != DEF_MODULE_HELP_NOK_1_2 );
+}
+
+// teste le chargement d'un module valide
+TEST_F( TestProcess, Test_Chargement_Module_Valide )
+{
+    // cree les types personnalises
+    using MODULE_TYPE = Process::MODULE_TYPE;
+    using Module      = Process::Module;
+
+    // definit le module d'aide
+    const Module DEF_MODULE_HELP = { MODULE_TYPE::HELP, "help", "Affiche l'aide." };
+    // definit le module de test
+    const Module DEF_MODULE_TEST = { MODULE_TYPE::TEST, "test", "Execute le module de test." };
+
     {
-        // cree une structure de resultat
-        struct Result
-        {
-            bool m_est_egal;
-        };
-
-        int             m_index;
-        Process::Module m_module;
-        Result          m_result;
-    };
-
-    // cree une liste de structure de tests parametriques
-    using TestParamList = std::vector<TestParam>;
-
-    // cree un module d'aide ok (1, 1)
-    const Process::Module DEF_MODULE_HELP_OK_1_1 = { Process::MODULE_TYPE::HELP, "MODULE_NAME_1", "MODULE_DESCRIPTION_1" };
-
-    // cree un module de bdd nok (1, 1)
-    const Process::Module DEF_MODULE_BDD_NOK_1_1 = { Process::MODULE_TYPE::BDD, "MODULE_NAME_1", "MODULE_DESCRIPTION_1" };
-
-    // cree un module d'aide nok (2, 1)
-    const Process::Module DEF_MODULE_HELP_NOK_2_1 = { Process::MODULE_TYPE::HELP, "MODULE_NAME_2", "MODULE_DESCRIPTION_1" };
-
-    // cree un module d'aide nok (1, 2)
-    const Process::Module DEF_MODULE_HELP_NOK_1_2 = { Process::MODULE_TYPE::HELP, "MODULE_NAME_1", "MODULE_DESCRIPTION_2" };
-
-    // remplit une liste de structure de tests parametriques
-    const TestParamList test_param_list = {
-        // {m_index: 0 | m_module: DEF_MODULE_HELP_OK_1_1 | m_result:
-        // {m_est_egal:
-        // true}}
-        { 0, DEF_MODULE_HELP_OK_1_1, { true } },
-        // {_index: 1 | m_module: DEF_MODULE_BDD_NOK_1_1 | m_result:
-        // {m_est_egal:
-        // false}}
-        { 1, DEF_MODULE_BDD_NOK_1_1, { false } },
-        // {_index: 2 | m_module: DEF_MODULE_HELP_NOK_2_1 | m_result:
-        // {m_est_egal:
-        // false}}
-        { 2, DEF_MODULE_HELP_NOK_2_1, { false } },
-        // {_index: 3 | m_module: DEF_MODULE_HELP_NOK_1_2 | m_result:
-        // {m_est_egal:
-        // false}}
-        { 3, DEF_MODULE_HELP_NOK_1_2, { false } },
-    };
-
-    // execute un test parametrique
-    auto runTest = [&]( const TestParam& _test_param )
+        // cree le process
+        Process process( { "setup" } );
+        // teste le chargement du module d'aide
+        EXPECT_TRUE( process.getModule() == DEF_MODULE_HELP );
+    }
     {
-        if ( _test_param.m_result.m_est_egal )
-        {
-            EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 == _test_param.m_module );
-        }
-        else
-        {
-            EXPECT_TRUE( DEF_MODULE_HELP_OK_1_1 != _test_param.m_module );
-        }
-    };
-
-    // execute les tests parametriques
-    for ( const auto& test_param : test_param_list )
+        // cree le process
+        Process process( { "setup", "help" } );
+        // teste le chargement du module d'aide
+        EXPECT_TRUE( process.getModule() == DEF_MODULE_HELP );
+    }
     {
-        runTest( test_param );
+        // cree le process
+        Process process( { "setup", "test" } );
+        // teste le chargement du module de test
+        EXPECT_TRUE( process.getModule() == DEF_MODULE_TEST );
     }
 }
 
-// teste le chargement d'un module
-TEST_F( TestProcess, Test_Chargement_Module )
+// teste le chargement d'un module invalide
+TEST_F( TestProcess, Test_Chargement_Module_Invalide )
 {
-    // cree une structure de tests parametriques
-    struct TestParam
+    // definit le message d'erreur de l'exception
+    const std::string DEF_MESSAGE_ERREUR_EXCEPTION = "Le chargement du module a echoue.|function={process::Process::Process()}";
+
     {
-        // cree une structure de resultat
-        struct Result
+        try
         {
-            bool            m_est_ok;
-            Process::Module m_module;
-        };
-
-        int              m_index;
-        Process::ArgList m_arg_list;
-        Result           m_result;
-    };
-
-    // cree une liste de structure de tests parametriques
-    using TestParamList = std::vector<TestParam>;
-
-    // cree des arguments cli vide (ok)
-    const Process::ArgList DEF_ARGS_VIDE_OK = { "readycpp", "" };
-
-    // cree des arguments cli inconnu (nok)
-    const Process::ArgList DEF_ARGS_INCONNU_NOK = { "readycpp", "unknown" };
-
-    // cree des arguments cli inconnu (ok)
-    const Process::ArgList DEF_ARGS_INCONNU_OK = { "readycpp", "inconnu" };
-
-    // cree des arguments cli help (ok)
-    const Process::ArgList DEF_ARGS_HELP_OK = { "readycpp", "help" };
-
-    // cree des arguments cli bdd (ok)
-    const Process::ArgList DEF_ARGS_BDD_OK = { "readycpp", "bdd" };
-
-    // cree un module inconnu (ok)
-    const Process::Module DEF_MODULE_INCONNU_OK = { Process::MODULE_TYPE::INCONNU, "inconnu", "Le module est inconnu." };
-
-    // cree un module inconnu (ok)
-    const Process::Module DEF_MODULE_HELP_OK = { Process::MODULE_TYPE::HELP, "help", "Affiche l'aide." };
-
-    // cree un module bdd (ok)
-    const Process::Module DEF_MODULE_BDD_OK = { Process::MODULE_TYPE::BDD, "bdd", "Execute le module de gestion de base de donnees." };
-
-    // remplit une liste de structure de tests parametriques
-    const TestParamList test_param_list = {
-        // {m_index: 0 | m_arg_list: DEF_ARGS_VIDE_OK | m_result: {m_est_ok:
-        // false
-        // | m_module: DEF_MODULE_HELP_OK}}
-        { 0, DEF_ARGS_VIDE_OK, { true, DEF_MODULE_HELP_OK } },
-        // {m_index: 1 | m_arg_list: DEF_ARGS_INCONNU_NOK | m_result: {m_est_ok:
-        // false | m_module: DEF_MODULE_INCONNU_OK}}
-        { 1, DEF_ARGS_INCONNU_NOK, { false, DEF_MODULE_INCONNU_OK } },
-        // {_index: 2 | m_arg_list: DEF_ARGS_INCONNU_OK | m_result: {m_est_ok:
-        // false | m_module: DEF_MODULE_INCONNU_OK}}
-        { 2, DEF_ARGS_INCONNU_OK, { false, DEF_MODULE_INCONNU_OK } },
-        // {_index: 3 | m_arg_list: DEF_ARGS_HELP_OK | m_result: {m_est_ok: true
-        // |
-        // m_module: DEF_MODULE_HELP_OK}}
-        { 3, DEF_ARGS_HELP_OK, { true, DEF_MODULE_HELP_OK } },
-        // {_index: 4 | m_arg_list: DEF_ARGS_BDD_OK | m_result: {m_est_ok: true
-        // |
-        // m_module: DEF_MODULE_BDD_OK}}
-        { 4, DEF_ARGS_BDD_OK, { true, DEF_MODULE_BDD_OK } },
-    };
-
-    // execute un test parametrique
-    auto runTest = [&]( const TestParam& _test_param )
-    {
-        // cree un process
-        Process process;
-
-        // charge les arguments cli
-        process.m_arg_list = _test_param.m_arg_list;
-
-        // cree un module
-        Process::Module module;
-
-        // charge le module
-        bool est_ok = process.loadModule( module );
-
-        EXPECT_TRUE( est_ok == _test_param.m_result.m_est_ok );
-        EXPECT_TRUE( module == _test_param.m_result.m_module );
-    };
-
-    // execute les tests parametriques
-    for ( const auto& test_param : test_param_list )
-    {
-        runTest( test_param );
+            // cree le process
+            Process process( { "setup", "inconnu" } );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+        catch ( const exception::Exception& e )
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) == DEF_MESSAGE_ERREUR_EXCEPTION );
+        }
+        catch ( const std::exception& e )
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) == DEF_MESSAGE_ERREUR_EXCEPTION );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+        catch ( ... )
+        {
+            // teste la capture de l'exception levee
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
     }
-}
-
-// teste l'execution d'un module
-TEST_F( TestProcess, Test_Execution_Module )
-{
-    // cree une structure de tests parametriques
-    struct TestParam
     {
-        // cree une structure de resultat
-        struct Result
+        try
         {
-            bool m_est_ok;
-        };
-
-        int              m_index;
-        Process::ArgList m_arg_list;
-        Result           m_result;
-    };
-
-    // cree une liste de structure de tests parametriques
-    using TestParamList = std::vector<TestParam>;
-
-    // cree des arguments cli inconnu (nok)
-    const Process::ArgList DEF_ARGS_INCONNU_NOK = { "readycpp", "unknown" };
-
-    // cree des arguments cli inconnu (ok)
-    const Process::ArgList DEF_ARGS_INCONNU_OK = { "readycpp", "inconnu" };
-
-    // cree des arguments cli help (ok)
-    const Process::ArgList DEF_ARGS_HELP_OK = { "readycpp", "help" };
-
-    // cree des arguments cli bdd (ok)
-    const Process::ArgList DEF_ARGS_BDD_OK = { "readycpp", "bdd" };
-
-    // remplit une liste de structure de tests parametriques
-    const TestParamList test_param_list = {
-        // {m_index: 0 | m_arg_list: DEF_ARGS_INCONNU_NOK | m_result: {m_est_ok:
-        // false}}
-        { 0, DEF_ARGS_INCONNU_NOK, { false } },
-        // {_index: 1 | m_arg_list: DEF_ARGS_INCONNU_OK | m_result: {m_est_ok:
-        // false}}
-        { 1, DEF_ARGS_INCONNU_OK, { false } },
-        // {_index: 2 | m_arg_list: DEF_ARGS_HELP_OK | m_result: {m_est_ok:
-        // true}}
-        { 2, DEF_ARGS_HELP_OK, { true } },
-        // {_index: 3 | m_arg_list: DEF_ARGS_BDD_OK | m_result: {m_est_ok:
-        // true}}
-        { 3, DEF_ARGS_BDD_OK, { true } },
-    };
-
-    // execute un test parametrique
-    auto runTest = [&]( const TestParam& _test_param )
-    {
-        // cree un process
-        Process process;
-
-        // charge les arguments cli
-        process.m_arg_list = _test_param.m_arg_list;
-
-        // cree un module
-        Process::Module module;
-
-        // charge le module
-        bool est_ok = process.loadModule( module );
-
-        EXPECT_TRUE( est_ok == _test_param.m_result.m_est_ok );
-    };
-
-    // execute les tests parametriques
-    for ( const auto& test_param : test_param_list )
-    {
-        runTest( test_param );
+            // cree le process
+            Process process( { "setup", "no_module" } );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+        catch ( const exception::Exception& e )
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) == DEF_MESSAGE_ERREUR_EXCEPTION );
+        }
+        catch ( const std::exception& e )
+        {
+            // teste la capture de l'exception levee
+            EXPECT_TRUE( std::string( e.what() ) == DEF_MESSAGE_ERREUR_EXCEPTION );
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
+        catch ( ... )
+        {
+            // teste la capture de l'exception levee
+            FAIL() << "Exception attendue (execption::Exception) non levee.";
+        }
     }
 }
 } // namespace process

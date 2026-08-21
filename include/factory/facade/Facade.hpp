@@ -1,30 +1,17 @@
 #pragma once
 
 #include "facade/Facade.hpp"
-#include "process/Process.hpp"
 
-#ifdef UNIT_TEST
-#include <gtest/gtest_prod.h>
-#endif
-
-#include <functional>
-#include <map>
-#include <memory>
-
-namespace factory
+namespace factory::facade
 {
-// cree un module facade
+// cree une factory facade
 class Facade
 {
-#ifdef UNIT_TEST
-    friend class TestFacadeFactory;
-    FRIEND_TEST( TestFacadeFactory, Test_Chargement_Factory );
-#endif
-
 public:
+    // cree les types personnalises
     using Process     = process::Process;
     using MODULE_TYPE = process::Process::MODULE_TYPE;
-    using sFacade     = std::shared_ptr<facade::Facade>;
+    using sFacade     = std::shared_ptr<::facade::Facade>;
     using FactoryFunc = std::function<sFacade()>;
     using FactoryMap  = std::map<MODULE_TYPE, FactoryFunc>;
 
@@ -35,6 +22,10 @@ public:
     ~Facade();
     // cree la facade
     sFacade create();
+    // recupere la map de factory
+    FactoryMap& getFactoryMap();
+    // recupere la map de factory
+    const FactoryMap& getFactoryMap() const;
 
 private:
     // initialise la factory map
@@ -44,7 +35,7 @@ private:
 
 private:
     Process&    m_process;
-    FactoryMap  _factory_map;
+    FactoryMap  m_factory_map;
     FactoryFunc m_factory_func;
 };
-} // namespace factory
+} // namespace factory::facade

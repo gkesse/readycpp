@@ -25,10 +25,15 @@ FetchContent_MakeAvailable(googletest)
 add_executable(${PROJECT_NAME}
     main.cpp
     exception/TestException.cpp
+    facade/server/TestBoost.cpp
     facade/TestFacade.cpp
-    factory/TestFacade.cpp
+    facade/TestFacadeTest.cpp
+    factory/facade/server/TestBoost.cpp
+    factory/facade/TestFacade.cpp
+    factory/facade/TestFacadeTest.cpp
     module/trace/backtrace/TestTrace.cpp
     process/TestProcess.cpp
+    tools/string/TestTools.cpp
 )
 
 # définit le répertoire d'inclusion pour le projet
@@ -45,6 +50,7 @@ target_link_libraries(${PROJECT_NAME}
         readycpp_factory
         readycpp_module
         readycpp_process
+        readycpp_tools
         gmock
         gmock_main
         gtest

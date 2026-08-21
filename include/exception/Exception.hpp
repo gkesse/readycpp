@@ -1,7 +1,17 @@
 #pragma once
 
+#include "macro/facade/macro.hpp"
+#include "macro/tests/facade/macro.hpp"
+#include "tools/string/Tools.hpp"
+
+#include <algorithm>
 #include <exception>
+#include <functional>
+#include <iostream>
+#include <map>
+#include <memory>
 #include <string>
+#include <vector>
 
 namespace exception
 {

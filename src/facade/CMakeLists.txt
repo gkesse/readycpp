@@ -3,8 +3,9 @@ project(readycpp_facade)
 
 # definit les sources du projet
 add_library(${PROJECT_NAME}
-    Bdd.cpp
     Facade.cpp
+    Test.cpp
+    server/Boost.cpp
 )
 
 # définit le répertoire d'inclusion pour le projet

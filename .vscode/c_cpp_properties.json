@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "compilerPath": "/usr/bin/g++",
+            "includePath": [
+                "${workspaceFolder}/include/**",
+                "/usr/include",
+                "/usr/include/c++/15",
+                "/usr/include/aarch64-linux-gnu/c++/15",
+                "/usr/include/boost"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}

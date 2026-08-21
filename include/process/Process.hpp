@@ -1,11 +1,6 @@
 #pragma once
 
-#ifdef UNIT_TEST
-#include <gtest/gtest_prod.h>
-#endif
-
-#include <string>
-#include <vector>
+#include "exception/Exception.hpp"
 
 namespace factory
 {
@@ -17,26 +12,14 @@ namespace process
 // cree un module process
 class Process
 {
-#ifdef UNIT_TEST
-    friend class TestProcess;
-    FRIEND_TEST( TestProcess, Test_Nombre_Modules );
-    FRIEND_TEST( TestProcess, Test_Module_Inconnu );
-    FRIEND_TEST( TestProcess, Test_Module_Aide );
-    FRIEND_TEST( TestProcess, Test_Egalite_Modules );
-    FRIEND_TEST( TestProcess, Test_Chargement_Module );
-    FRIEND_TEST( TestProcess, Test_Execution_Module );
-#endif
-
-    friend class factory::Facade;
-
 public:
     // cree le type d'un module
     enum class MODULE_TYPE
     {
         INCONNU,
         HELP,
+        TEST,
         SERVER_BOOST,
-        BDD,
     };
 
     // cree la structure d'un module
@@ -49,8 +32,7 @@ public:
         // cree un constructeur de module par defaut
         Module();
         // cree un constructeur de module par donnees
-        Module( MODULE_TYPE _type, const std::string& _name,
-                const std::string& _description );
+        Module( MODULE_TYPE _type, const std::string& _name, const std::string& _description );
         // cree un constructeur de module par copie
         Module( const Module& _module );
         // cree un operateur d'affectation de module
@@ -65,7 +47,9 @@ public:
     struct ModuleList : public std::vector<Module>
     {
         // charge un module par son nom
-        bool loadModuleByName( const std::string& _name, Module& _module );
+        bool loadModuleByName( const std::string& _name, Module& _module ) const;
+        // charge un module par son type
+        bool loadModuleByType( const MODULE_TYPE& _type, Module& _module ) const;
     };
 
     // cree un type pour un argument cli
@@ -76,15 +60,13 @@ public:
 #ifdef UNIT_TEST
 public:
     // cree un constructeur de process par defaut
-    explicit Process()
+    explicit Process( const ArgList& _arg_list ) : m_arg_list( _arg_list )
     {
         initModuleListe();
-        m_module = m_module_list.at( 1 );
-    }
-    // initialise le module
-    void setModule( const Module& _module )
-    {
-        m_module = _module;
+        if ( !loadModule( m_module ) )
+        {
+            throw exception::Exception( "Le chargement du module a echoue.|function={process::Process::Process()}" );
+        }
     }
 #endif
 
@@ -95,16 +77,30 @@ public:
     ~Process();
     // execute le process
     void run();
+    // recupere le module
+    Module& getModule();
+    // recupere le module
+    const Module& getModule() const;
+    // recupere la liste des modules
+    ModuleList& getModuleListe();
+    // recupere la liste des modules
+    const ModuleList& getModuleListe() const;
+    // recupere la liste des arguments cli
+    ArgList& getArgListe();
+    // recupere la liste des arguments cli
+    const ArgList& getArgListe() const;
 
 private:
     // initialise la lsite des modules
     void initModuleListe();
     // charge la liste des arguments cli
-    void loadArguments( int _argc, char** _argv, ArgList& _arg_list );
-    // charge le module correspondant à l'argument cli
-    bool loadModule( Module& _module );
+    void loadArguments( int _argc, char** _argv, ArgList& _arg_list ) const;
+    // charge le module a partir des arguments cli
+    bool loadModule( Module& _module ) const;
+    // recupere la description du module
+    std::string getDescription( const MODULE_TYPE& _type ) const;
     // affiche l'aide
-    virtual void runHelp();
+    void runHelp() const;
 
 private:
     Module     m_module;

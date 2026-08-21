@@ -24,7 +24,7 @@ void Trace::print()
 {
     if ( m_binary_name.empty() )
     {
-        throw exception::Exception( "Le nom du binaire est obligatoire." );
+        throw exception::Exception( "Le nom du binaire est obligatoire.|function={module::trace::backtrace::Trace::print()}" );
     }
 
     loadBinaryBase();

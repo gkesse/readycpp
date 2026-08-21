@@ -1,25 +1,15 @@
 # definit le nom du projet
-project(readycpp_factory)
+project(readycpp_tools)
 
 # definit les sources du projet
 add_library(${PROJECT_NAME}
-    facade/Facade.cpp
-    facade/Test.cpp
-    facade/server/Boost.cpp
+    string/Tools.cpp
 )
 
 # définit le répertoire d'inclusion pour le projet
 target_include_directories(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_HOME_DIRECTORY}/include
-)
-
-# definit les libraries à lier avec l'exécutable des tests unitaires
-target_link_libraries(${PROJECT_NAME}
-    PRIVATE
-        readycpp_exception
-        readycpp_facade
-        readycpp_process
 )
 
 # active le mode debug si l'option WITH_DEBUG est activée
